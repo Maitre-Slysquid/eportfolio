@@ -1,0 +1,221 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon CV - Network Security Architect{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .cv-header {
+        background: linear-gradient(45deg, #4169E1 0%, #6A5ACD 100%);
+        color: white;
+        padding: 6rem 0 3rem 0;
+        clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        position: relative;
+    }
+
+    .section-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        padding: 2rem;
+        margin-bottom: 2rem;
+        transition: transform 0.3s ease;
+    }
+
+    .section-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .experience-item {
+        border-left: 3px solid #4169E1;
+        padding-left: 1.5rem;
+        margin-bottom: 2rem;
+        position: relative;
+    }
+
+    .experience-item::before {
+        content: '';
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        background: #4169E1;
+        border-radius: 50%;
+        left: -7.5px;
+        top: 0;
+    }
+
+    .skill-tag {
+        background: rgba(65, 105, 225, 0.1);
+        color: #4169E1;
+        padding: 0.5rem 1rem;
+        border-radius: 25px;
+        margin: 0.25rem;
+        display: inline-block;
+        transition: all 0.3s ease;
+    }
+
+    .skill-tag:hover {
+        background: #4169E1;
+        color: white;
+        transform: scale(1.05);
+    }
+
+    .progress-bar-custom {
+        height: 8px;
+        border-radius: 4px;
+    }
+
+    .download-cv {
+        background: white;
+        border: 2px solid #4169E1;
+        color: #4169E1;
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
+
+    .download-cv:hover {
+        background: #4169E1;
+        color: white;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(65, 105, 225, 0.3);
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<!-- Header avec le poste de rêve -->
+<header class="cv-header mb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2 text-center">
+                <h1 class="display-4 fw-bold mb-4">Network Security Architect</h1>
+                <p class="lead mb-4">Spécialisé en architecture de sécurité réseau et cloud computing</p>
+                <a href="#" class="download-cv">Télécharger le CV</a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <!-- Formations -->
+    <section class="section-card">
+        <h2 class="mb-4">Formations</h2>
+        <div class="timeline">
+            <div class="experience-item">
+                <h4>BUT Réseaux et Télécommunications</h4>
+                <p class="text-muted">IUT de XXX | 2023 - 2026</p>
+                <ul>
+                    <li>Spécialisation en Cybersécurité et Cloud Computing</li>
+                    <li>Projets majeurs en administration système et réseaux</li>
+                    <li>Formation pratique sur les technologies Cisco et Linux</li>
+                </ul>
+            </div>
+            <div class="experience-item">
+                <h4>Baccalauréat STI2D</h4>
+                <p class="text-muted">Lycée XXX | 2023</p>
+                <ul>
+                    <li>Spécialité SIN (Systèmes d'Information et Numérique)</li>
+                    <li>Mention Très Bien</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Expériences Professionnelles -->
+    <section class="section-card">
+        <h2 class="mb-4">Expériences Professionnelles</h2>
+        <div class="timeline">
+            <div class="experience-item">
+                <h4>Stage - Assistant Administrateur Réseau</h4>
+                <p class="text-muted">Entreprise XXX | Été 2024</p>
+                <ul>
+                    <li>Configuration et maintenance de l'infrastructure réseau</li>
+                    <li>Mise en place de solutions de sécurité réseau</li>
+                    <li>Support technique niveau 2</li>
+                </ul>
+            </div>
+            <div class="experience-item">
+                <h4>Projet Académique - Infrastructure Cloud</h4>
+                <p class="text-muted">IUT R&T | 2023</p>
+                <ul>
+                    <li>Déploiement d'une infrastructure cloud avec AWS</li>
+                    <li>Configuration de services réseau virtualisés</li>
+                    <li>Mise en place de monitoing et sécurité</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Compétences -->
+    <section class="section-card">
+        <h2 class="mb-4">Compétences</h2>
+        
+        <!-- Compétences Techniques -->
+        <div class="mb-5">
+            <h4 class="mb-4">Compétences Techniques</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span>Administration Réseau</span>
+                            <span>90%</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-custom bg-primary" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span>Sécurité Réseau</span>
+                            <span>85%</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-custom bg-info" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span>Cloud Computing</span>
+                            <span>80%</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-custom bg-success" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span>Virtualisation</span>
+                            <span>75%</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-custom bg-warning" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technologies & Outils -->
+        <div>
+            <h4 class="mb-3">Technologies & Outils</h4>
+            <div>
+                <span class="skill-tag">CISCO</span>
+                <span class="skill-tag">Linux</span>
+                <span class="skill-tag">Windows Server</span>
+                <span class="skill-tag">AWS</span>
+                <span class="skill-tag">Azure</span>
+                <span class="skill-tag">Docker</span>
+                <span class="skill-tag">VMware</span>
+                <span class="skill-tag">Wireshark</span>
+                <span class="skill-tag">Python</span>
+                <span class="skill-tag">Bash</span>
+                <span class="skill-tag">Git</span>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

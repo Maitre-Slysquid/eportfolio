@@ -1,0 +1,307 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Welcome - Professional R&T Portfolio{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    /* Gradient Header */
+    .hero-section {
+        background: linear-gradient(45deg, #4169E1 0%, #6A5ACD 100%);
+        color: white;
+        padding: 6rem 0 3rem 0;
+        margin-top: -2rem;
+        clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Animation des particules */
+    .particle {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    /* Cards */
+    .info-card {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        border: none;
+        height: 100%;
+    }
+
+    .info-card:hover {
+        transform: translateY(-5px);
+    }
+
+    /* Stats */
+    .stats-card {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        margin-top: -4rem;
+        position: relative;
+        z-index: 2;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    .stat-item {
+        text-align: center;
+        padding: 1rem;
+    }
+
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #4169E1;
+        margin-bottom: 0.5rem;
+    }
+
+    /* Skills */
+    .skill-badge {
+        background: rgba(65, 105, 225, 0.1);
+        color: #4169E1;
+        padding: 0.5rem 1rem;
+        border-radius: 25px;
+        margin: 0.25rem;
+        display: inline-block;
+        transition: all 0.3s ease;
+    }
+
+    .skill-badge:hover {
+        background: #4169E1;
+        color: white;
+        transform: scale(1.05);
+    }
+
+    /* Timeline */
+    .timeline-section {
+        position: relative;
+        padding: 3rem 0;
+    }
+
+    .timeline-item {
+        padding: 2rem;
+        border-radius: 15px;
+        margin-bottom: 2rem;
+        position: relative;
+    }
+
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        width: 15px;
+        height: 15px;
+        background: #4169E1;
+        border-radius: 50%;
+        left: -7px;
+        top: 50%;
+    }
+
+    /* Education */
+    .education-card {
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+
+    .education-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .progress-bar-custom {
+        height: 8px;
+        border-radius: 4px;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h1 class="display-4 fw-bold mb-4">{{ infos.prenom }} {{ infos.nom }}</h1>
+                <p class="lead mb-4">Passionate Networks & Telecommunications student specializing in cyber security and cloud infrastructure.</p>
+                <div class="d-flex gap-3">
+                    <a href="#portfolio" class="btn btn-light">View Portfolio</a>
+                    <a href="#contact" class="btn btn-outline-light">Contact Me</a>
+                </div>
+            </div>
+            <div class="col-md-6 text-center">
+                <div class="info-card p-4">
+                    <h3>Quick Info</h3>
+                    <p class="mb-2"><strong>Group:</strong> {{ infos.groupe_tp }}</p>
+                    <p class="mb-2"><strong>Location:</strong> {{ infos.autres_infos.ville }}</p>
+                    <p class="mb-0"><strong>Focus:</strong> Networks & Security</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<div class="container">
+    <div class="stats-card">
+        <div class="row">
+            <div class="col-md-3 stat-item">
+                <div class="stat-number">3+</div>
+                <div>Years of Study</div>
+            </div>
+            <div class="col-md-3 stat-item">
+                <div class="stat-number">10+</div>
+                <div>Projects</div>
+            </div>
+            <div class="col-md-3 stat-item">
+                <div class="stat-number">5+</div>
+                <div>Technologies</div>
+            </div>
+            <div class="col-md-3 stat-item">
+                <div class="stat-number">2+</div>
+                <div>Certifications</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Skills Section -->
+<section class="container my-5">
+    <h2 class="text-center mb-4">Technical Expertise</h2>
+    <div class="row g-4">
+        <!-- Network Administration -->
+        <div class="col-md-4">
+            <div class="info-card p-4">
+                <h4>Network Administration</h4>
+                <div class="progress mb-3">
+                    <div class="progress-bar progress-bar-custom bg-primary" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <div class="mt-3">
+                    <span class="skill-badge">CISCO</span>
+                    <span class="skill-badge">TCP/IP</span>
+                    <span class="skill-badge">VLAN</span>
+                </div>
+            </div>
+        </div>
+        <!-- Security -->
+        <div class="col-md-4">
+            <div class="info-card p-4">
+                <h4>Cyber Security</h4>
+                <div class="progress mb-3">
+                    <div class="progress-bar progress-bar-custom bg-info" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <div class="mt-3">
+                    <span class="skill-badge">Firewalls</span>
+                    <span class="skill-badge">IDS/IPS</span>
+                    <span class="skill-badge">VPN</span>
+                </div>
+            </div>
+        </div>
+        <!-- Development -->
+        <div class="col-md-4">
+            <div class="info-card p-4">
+                <h4>Development</h4>
+                <div class="progress mb-3">
+                    <div class="progress-bar progress-bar-custom bg-success" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <div class="mt-3">
+                    <span class="skill-badge">Python</span>
+                    <span class="skill-badge">Web</span>
+                    <span class="skill-badge">SQL</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Education Timeline -->
+<section class="container my-5">
+    <h2 class="text-center mb-4">Educational Journey</h2>
+    <div class="row">
+        <div class="col-lg-10 offset-lg-1">
+            <div class="timeline-section">
+                <div class="timeline-item info-card">
+                    <h4>BUT Réseaux et Télécommunications</h4>
+                    <p class="text-muted">Currently pursuing advanced networking and telecommunications studies</p>
+                </div>
+                <div class="timeline-item info-card">
+                    <h4>Professional Certifications</h4>
+                    <p class="text-muted">CCNA and Security+ certifications in progress</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Latest Projects -->
+<section class="container my-5">
+    <h2 class="text-center mb-4">Featured Projects</h2>
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="education-card">
+                <div class="card-body p-4">
+                    <h4>Network Infrastructure Design</h4>
+                    <p>Designed and implemented a complete network infrastructure including VLANs, routing, and security measures.</p>
+                    <div class="mt-3">
+                        <span class="skill-badge">Cisco</span>
+                        <span class="skill-badge">Routing</span>
+                        <span class="skill-badge">Security</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="education-card">
+                <div class="card-body p-4">
+                    <h4>Cloud Migration Project</h4>
+                    <p>Migrated local services to cloud infrastructure while maintaining security and performance.</p>
+                    <div class="mt-3">
+                        <span class="skill-badge">AWS</span>
+                        <span class="skill-badge">Azure</span>
+                        <span class="skill-badge">Cloud</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="container my-5">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <div class="info-card p-4 text-center">
+                <h2 class="mb-4">Let's Connect</h2>
+                <p class="lead mb-4">Interested in collaboration or have questions about my work?</p>
+                <a href="{{ path('app_eportfolio_aboutme') }}" class="btn btn-primary btn-lg rounded-pill">Learn More About Me</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add particles
+    const heroSection = document.querySelector('.hero-section');
+    for(let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = Math.random() * 100 + '%';
+        particle.style.animationDuration = (Math.random() * 3 + 2) + 's';
+        particle.style.animationDelay = (Math.random() * 2) + 's';
+        heroSection.appendChild(particle);
+    }
+});
+</script>
+{% endblock %}
