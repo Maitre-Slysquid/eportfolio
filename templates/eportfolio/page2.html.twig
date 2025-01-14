@@ -81,10 +81,175 @@
         transform: translateY(-3px);
         box-shadow: 0 5px 15px rgba(65, 105, 225, 0.3);
     }
+    .modal-content {
+        border-radius: 0.5rem;
+    }
+    
+    .btn-close-custom:hover {
+        opacity: 0.8;
+        cursor: pointer;
+    }
+    .mac-modal .modal-content {
+        border-radius: 12px;
+        overflow: hidden;
+        border: none;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    }
+
+    .mac-modal .modal-header {
+        background: rgb(48, 48, 48);
+        padding: 0.7rem 1rem;
+        border: none;
+        display: flex;
+        align-items: center;
+        height: 45px;
+    }
+
+    .mac-window-buttons {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        position: absolute;
+        left: 15px;
+    }
+
+    .mac-btn {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        transition: opacity 0.2s;
+    }
+
+    .mac-btn:hover {
+        opacity: 0.7;
+    }
+
+    .mac-close { background-color: #FF5F57; }
+    .mac-minimize { background-color: #FEBC2E; }
+    .mac-expand { background-color: #28C841; }
+
+    .mac-modal .modal-title {
+        width: 100%;
+        text-align: center;
+        color: #fff;
+        font-size: 0.95rem;
+        margin: 0;
+    }
+
+    .mac-modal .modal-body {
+        padding: 2rem;
+    }
+
+    .mac-form-control {
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .mac-form-control:focus {
+        border-color: #4169E1;
+        box-shadow: 0 0 0 3px rgba(65, 105, 225, 0.1);
+    }
+
+    .mac-form-label {
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        color: #333;
+    }
+
+    .mac-submit-btn {
+        background: linear-gradient(45deg, #4169E1, #6A5ACD);
+        border: none;
+        border-radius: 8px;
+        color: white;
+        padding: 0.75rem 1.5rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .mac-submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(65, 105, 225, 0.2);
+    }
+
+    .format-selector {
+        display: flex;
+        gap: 1rem;
+        margin-top: 0.5rem;
+    }
+
+    .format-option {
+        flex: 1;
+        padding: 1rem;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .format-option:hover {
+        border-color: #4169E1;
+    }
+
+    .format-option.selected {
+        border-color: #4169E1;
+        background: rgba(65, 105, 225, 0.1);
+    }
 </style>
 {% endblock %}
 
 {% block body %}
+<div class="modal fade mac-modal" id="cvModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="mac-window-buttons">
+                    <button type="button" class="mac-btn mac-close" data-bs-dismiss="modal"></button>
+                    <button type="button" class="mac-btn mac-minimize"></button>
+                    <button type="button" class="mac-btn mac-expand"></button>
+                </div>
+                <h5 class="modal-title">Télécharger le CV</h5>
+            </div>
+            <div class="modal-body">
+                <form id="cvDownloadForm">
+                    <div class="mb-4">
+                        <label class="mac-form-label">Nom complet</label>
+                        <input type="text" class="form-control mac-form-control" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="mac-form-label">Email professionnel</label>
+                        <input type="email" class="form-control mac-form-control" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="mac-form-label">Entreprise</label>
+                        <input type="text" class="form-control mac-form-control">
+                    </div>
+                    <div class="mb-4">
+                        <label class="mac-form-label">Format du document</label>
+                        <div class="format-selector">
+                            <div class="format-option selected" data-format="pdf">
+                                <i class="fas fa-file-pdf mb-2" style="font-size: 1.5rem; color: #4169E1;"></i>
+                                <div>PDF</div>
+                            </div>
+                            <div class="format-option" data-format="docx">
+                                <i class="fas fa-file-word mb-2" style="font-size: 1.5rem; color: #4169E1;"></i>
+                                <div>DOCX</div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="format" value="pdf" id="selectedFormat">
+                    </div>
+                    <button type="submit" class="mac-submit-btn w-100">Télécharger</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Header avec le poste de rêve -->
 <header class="cv-header mb-5">
     <div class="container">
@@ -92,7 +257,9 @@
             <div class="col-lg-8 offset-lg-2 text-center">
                 <h1 class="display-4 fw-bold mb-4">Network Security Architect</h1>
                 <p class="lead mb-4">Spécialisé en architecture de sécurité réseau et cloud computing</p>
-                <a href="#" class="download-cv">Télécharger le CV</a>
+                <a href="#" class="download-cv" data-bs-toggle="modal" data-bs-target="#cvModal">
+                    <i class="fas fa-download me-2"></i>Télécharger le CV
+                </a>
             </div>
         </div>
     </div>
@@ -218,4 +385,47 @@
         </div>
     </section>
 </div>
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+<script src="https://kit.fontawesome.com/your-fontawesome-kit.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Gestionnaire pour le sélecteur de format
+    const formatOptions = document.querySelectorAll('.format-option');
+    const formatInput = document.getElementById('selectedFormat');
+
+    formatOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            // Retire la sélection précédente
+            formatOptions.forEach(opt => opt.classList.remove('selected'));
+            // Ajoute la sélection au format cliqué
+            this.classList.add('selected');
+            // Met à jour l'input caché
+            formatInput.value = this.dataset.format;
+        });
+    });
+
+    // Gestionnaire du formulaire
+    document.getElementById('cvDownloadForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const format = document.getElementById('selectedFormat').value;
+        const filePath = `/cv/cv_template.${format}`;
+        
+        // Crée un élément <a> temporaire pour déclencher le téléchargement
+        const link = document.createElement('a');
+        link.href = filePath;
+        link.download = `cv.${format}`;  // Nom du fichier téléchargé
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        // Ferme le modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('cvModal'));
+        modal.hide();
+    });
+});
+</script>
+
 {% endblock %}

@@ -29,35 +29,142 @@
     </head>
     <body>
         <!-- Navbar -->
-        <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="{{ path('app_eportfolio_page1') }}">Page 1</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarColor02">
-                    <ul class="navbar-nav me-auto">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="{{ path('app_eportfolio_page2') }}">Page 2
-                                <span class="visually-hidden">(current)</span>
-                            </a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="{{ path('app_eportfolio_aboutme') }}">About Me</a>
-                                <a class="dropdown-item" href="#">Télécherger le CV</a>
-                            </div>
-                        </li>
-                    </ul>
-                    <form class="d-flex">
-                        <input class="form-control me-sm-2" type="search" placeholder="Search">
-                        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-                    </form>
-                </div>
-            </div>
-        </nav>
-
+        <nav class="navbar navbar-expand-lg fixed-top custom-navbar" data-bs-theme="dark">
+          <div class="container">
+              <a class="navbar-brand fw-bold" href="{{ path('app_eportfolio_page1') }}">
+                  <i class="fas fa-code me-2"></i>Portfolio
+              </a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarMain">
+                  <ul class="navbar-nav mx-auto">
+                      <li class="nav-item">
+                          <a class="nav-link {% if app.request.attributes.get('_route') == 'app_eportfolio_page1' %}active{% endif %}" href="{{ path('app_eportfolio_page1') }}">
+                              <i class="fas fa-home me-1"></i> Accueil
+                          </a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link {% if app.request.attributes.get('_route') == 'app_eportfolio_page2' %}active{% endif %}" href="{{ path('app_eportfolio_page2') }}">
+                              <i class="fas fa-file-alt me-1"></i> CV
+                          </a>
+                      </li>
+                      <li class="nav-item dropdown">
+                          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              <i class="fas fa-folder-open me-1"></i> Portfolio
+                          </a>
+                          <ul class="dropdown-menu dropdown-menu-dark">
+                              <li><a class="dropdown-item" href="{{ path('app_eportfolio_aboutme') }}">
+                                  <i class="fas fa-user me-2"></i> À propos
+                              </a></li>
+                              <li><hr class="dropdown-divider"></li>
+                              <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#cvModal">
+                                  <i class="fas fa-download me-2"></i> Télécharger CV
+                              </a></li>
+                              <li><a class="dropdown-item" href="#">
+                                  <i class="fas fa-project-diagram me-2"></i> Projets
+                              </a></li>
+                          </ul>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="#contact">
+                              <i class="fas fa-envelope me-1"></i> Contact
+                          </a>
+                      </li>
+                  </ul>
+                  <div class="d-flex align-items-center">
+                      <div class="nav-item dropdown">
+                          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              <i class="fas fa-globe me-1"></i> FR
+                          </a>
+                          <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+                              <li><a class="dropdown-item" href="#">Français</a></li>
+                              <li><a class="dropdown-item" href="#">English</a></li>
+                          </ul>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </nav>
+      
+      <style>
+          .custom-navbar {
+              background: rgba(33, 37, 41, 0.95);
+              backdrop-filter: blur(10px);
+              padding: 1rem 0;
+              transition: all 0.3s ease;
+              box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+          }
+      
+          .custom-navbar .navbar-brand {
+              font-size: 1.5rem;
+              color: #fff;
+              transition: color 0.3s ease;
+          }
+      
+          .custom-navbar .navbar-brand:hover {
+              color: #4169E1;
+          }
+      
+          .custom-navbar .nav-link {
+              color: rgba(255, 255, 255, 0.85);
+              padding: 0.5rem 1rem;
+              font-weight: 500;
+              transition: all 0.3s ease;
+              border-radius: 6px;
+              margin: 0 0.2rem;
+          }
+      
+          .custom-navbar .nav-link:hover {
+              color: #fff;
+              background: rgba(255, 255, 255, 0.1);
+          }
+      
+          .custom-navbar .nav-link.active {
+              color: #fff;
+              background: #4169E1;
+          }
+      
+          .custom-navbar .dropdown-menu {
+              border: none;
+              border-radius: 12px;
+              box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+              padding: 0.5rem;
+              margin-top: 0.5rem;
+              background: rgba(33, 37, 41, 0.95);
+              backdrop-filter: blur(10px);
+          }
+      
+          .custom-navbar .dropdown-item {
+              padding: 0.6rem 1rem;
+              border-radius: 6px;
+              transition: all 0.3s ease;
+              color: rgba(255, 255, 255, 0.85);
+          }
+      
+          .custom-navbar .dropdown-item:hover {
+              background: rgba(255, 255, 255, 0.1);
+              color: #fff;
+          }
+      
+          .custom-navbar .dropdown-divider {
+              border-color: rgba(255, 255, 255, 0.1);
+          }
+      
+          /* Ajout de padding au body pour compenser la navbar fixed */
+          body {
+              padding-top: 76px;
+          }
+      
+          @media (max-width: 991.98px) {
+              .custom-navbar .navbar-nav {
+                  padding: 1rem 0;
+              }
+              .custom-navbar .nav-link {
+                  padding: 0.5rem 1rem;
+              }
+          }
+      </style>
         <!-- Main Content -->
         {% block body %}{% endblock %}
 
