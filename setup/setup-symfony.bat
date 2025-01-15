@@ -2,8 +2,8 @@
 SETLOCAL EnableDelayedExpansion
 
 :: Configuration
-SET PHP_VERSION=8.2
-SET PHP_REQUIRED_VERSION=8.2.12
+SET PHP_VERSION=8.4.2
+SET PHP_REQUIRED_VERSION=8.4.2
 SET COMPOSER_SETUP_URL=https://getcomposer.org/Composer-Setup.exe
 
 echo ===================================
