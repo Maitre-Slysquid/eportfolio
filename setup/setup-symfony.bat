@@ -293,15 +293,17 @@ if %ACTIONS_NEEDED%==0 (
 :: Demander si l'utilisateur veut lancer le serveur
 echo.
 echo %YELLOW%Voulez-vous lancer le serveur Symfony? (O/N):%RESET%
-set /p "START_SERVER="
-set START_SERVER=%START_SERVER: =%
+set "START_SERVER="
+set /p START_SERVER=
+echo Le choix est: [%START_SERVER%]
 
-:PATH_INPUT
-if /i "%START_SERVER%"=="O" (
+if /i "%START_SERVER%" == "O" (
+    :PATH_INPUT
     echo.
     echo %YELLOW%Entrez le chemin de votre projet Symfony (chemin obligatoire):%RESET%
     set "SYMFONY_PATH="
-    set /p "SYMFONY_PATH="
+    set /p SYMFONY_PATH=
+    echo Le chemin est: [%SYMFONY_PATH%]
     
     :: Vérifie si le chemin est vide
     if "!SYMFONY_PATH!"=="" (
