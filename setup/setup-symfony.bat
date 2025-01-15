@@ -295,7 +295,6 @@ echo.
 echo %YELLOW%Voulez-vous lancer le serveur Symfony? (O/N):%RESET%
 set "START_SERVER="
 set /p START_SERVER=
-echo Le choix est: [%START_SERVER%]
 
 if /i "%START_SERVER%" == "O" (
     :PATH_INPUT
@@ -303,7 +302,6 @@ if /i "%START_SERVER%" == "O" (
     echo %YELLOW%Entrez le chemin de votre projet Symfony (chemin obligatoire):%RESET%
     set "SYMFONY_PATH="
     set /p SYMFONY_PATH=
-    echo Le chemin est: [%SYMFONY_PATH%]
     
     :: Vérifie si le chemin est vide
     if "!SYMFONY_PATH!"=="" (
@@ -311,46 +309,42 @@ if /i "%START_SERVER%" == "O" (
         goto PATH_INPUT
     )
 
-    if not "%SYMFONY_PATH%"=="" (
-        if exist "%SYMFONY_PATH%" (
-            echo.
-            echo %YELLOW%Installation des dependances Composer...%RESET%
-            cd /d "%SYMFONY_PATH%"
-            :: Vérifier si composer.json existe
-            if not exist "composer.json" (
-                echo %RED%Erreur: composer.json non trouve dans le dossier%RESET%
-                goto END
-            )
-
-            echo %YELLOW%Installation des dependances via Composer...%RESET%
-            call composer install
-            if !errorLevel! neq 0 (
-                echo %RED%Erreur lors de l'installation des dependances%RESET%
-                goto END
-            )
-            
-            :: Vérifier si les dossiers var et vendor existent
-            if not exist "vendor" (
-                echo %RED%Erreur: Le dossier vendor n'a pas ete cree correctement%RESET%
-                goto END
-            )
-            
-            if not exist "var" (
-                echo %RED%Erreur: Le dossier var n'a pas ete cree correctement%RESET%
-                goto END
-            )
-
-            echo %GREEN%Dependances installees avec succes%RESET%
-            echo.
-            echo %YELLOW%Demarrage du serveur Symfony...%RESET%
-                symfony server:stop 2>nul
-                symfony server:start
-            )
-        ) else (
-            echo %RED%Le chemin specifie n'existe pas%RESET%
+    if exist "!SYMFONY_PATH!" (
+        echo.
+        echo %YELLOW%Installation des dependances Composer...%RESET%
+        cd /d "!SYMFONY_PATH!"
+        
+        :: Vérifier si composer.json existe
+        if not exist "composer.json" (
+            echo %RED%Erreur: composer.json non trouve dans le dossier%RESET%
+            goto END
         )
+
+        echo %YELLOW%Installation des dependances via Composer...%RESET%
+        call composer install
+        if !errorLevel! neq 0 (
+            echo %RED%Erreur lors de l'installation des dependances%RESET%
+            goto END
+        )
+        
+        :: Vérifier si les dossiers var et vendor existent
+        if not exist "vendor" (
+            echo %RED%Erreur: Le dossier vendor n'a pas ete cree correctement%RESET%
+            goto END
+        )
+        
+        if not exist "var" (
+            echo %RED%Erreur: Le dossier var n'a pas ete cree correctement%RESET%
+            goto END
+        )
+
+        echo %GREEN%Dependances installees avec succes%RESET%
+        echo.
+        echo %YELLOW%Demarrage du serveur Symfony...%RESET%
+        symfony server:stop 2>nul
+        symfony server:start
     ) else (
-        echo %RED%Aucun chemin specifie%RESET%
+        echo %RED%Le chemin specifie n'existe pas%RESET%
     )
 ) else (
     echo.
@@ -359,15 +353,4 @@ if /i "%START_SERVER%" == "O" (
     echo symfony server:start
 )
 
-:: Vérification finale
-echo.
-echo ===================================
-echo Verification finale de l'installation
-echo ===================================
-
-echo.
-symfony check:requirements
-
-echo.
-echo Installation terminee ! Verifiez les messages ci-dessus pour vous assurer que tout est correct.
-pause
+:END
