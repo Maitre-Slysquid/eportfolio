@@ -3,10 +3,11 @@ SETLOCAL EnableDelayedExpansion
 
 :: Configuration
 SET PHP_VERSION=8.2
+SET PHP_REQUIRED_VERSION=8.2.12
 SET COMPOSER_SETUP_URL=https://getcomposer.org/Composer-Setup.exe
 
 echo ===================================
-echo Installation de l'environnement Symfony
+echo Verification de l'environnement
 echo ===================================
 
 :: Fonction pour afficher en couleur
@@ -20,7 +21,16 @@ SET "RED=%ESC%[91m"
 SET "YELLOW=%ESC%[93m"
 SET "RESET=%ESC%[0m"
 
-:: Vérifier les privilèges administrateur
+:: Variables pour le statut des composants
+SET SCOOP_NEEDED=0
+SET PHP_NEEDED=0
+SET COMPOSER_NEEDED=0
+SET SYMFONY_NEEDED=0
+SET ZIP_EXTENSION_NEEDED=0
+SET GIT_NEEDED=0
+SET VSCODE_NEEDED=0
+
+echo Verification des privileges administrateur...
 net session >nul 2>&1
 if %errorLevel% neq 0 (
     echo %RED%Ce script necessite des privileges administrateur%RESET%
@@ -30,87 +40,303 @@ if %errorLevel% neq 0 (
 )
 echo %GREEN%OK: Privileges administrateur%RESET%
 
-:: Vérifier si Scoop est installé
+:: Vérifier Scoop
+echo.
+echo Verification de Scoop...
 where scoop >nul 2>&1
 if %errorLevel% neq 0 (
-    echo.
-    echo %YELLOW%Installation de Scoop...%RESET%
-    powershell -Command "Set-ExecutionPolicy RemoteSigned -Scope CurrentUser"
-    powershell -Command "irm get.scoop.sh -outfile 'install.ps1'"
-    powershell -ExecutionPolicy RemoteSigned -File install.ps1
-    del install.ps1
-    if !errorLevel! neq 0 (
-        echo %RED%Erreur lors de l'installation de Scoop%RESET%
-        pause
-        exit /b 1
-    )
-    echo %GREEN%Scoop installe avec succes%RESET%
-    :: Rafraîchir le PATH
-    set "PATH=%PATH%;%USERPROFILE%\scoop\shims"
+    echo %YELLOW%Scoop n'est pas installe%RESET%
+    SET SCOOP_NEEDED=1
+) else (
+    echo %GREEN%OK: Scoop est installe%RESET%
 )
 
-:: Installer PHP 8.2
+:: Vérifier PHP
 echo.
-echo %YELLOW%Installation de PHP 8.2...%RESET%
-scoop bucket add main
-scoop install php8.2
+echo Verification de PHP...
+where php >nul 2>&1
 if %errorLevel% neq 0 (
-    echo %RED%Erreur lors de l'installation de PHP%RESET%
-    pause
-    exit /b 1
+    echo %YELLOW%PHP n'est pas installe%RESET%
+    SET PHP_NEEDED=1
+) else (
+    for /f "tokens=2 delims==" %%I in ('php -r "echo PHP_VERSION;"') do set PHP_CURRENT_VERSION=%%I
+    echo Version actuelle : !PHP_CURRENT_VERSION!
+    if "!PHP_CURRENT_VERSION!" neq "%PHP_REQUIRED_VERSION%" (
+        echo %YELLOW%La version de PHP ne correspond pas a la version requise%RESET%
+        SET PHP_NEEDED=1
+    ) else (
+        echo %GREEN%OK: PHP est installe avec la bonne version%RESET%
+    )
 )
 
-:: Activer les extensions requises
-echo.
-echo Configuration des extensions PHP...
-SET PHP_INI_PATH=%USERPROFILE%\scoop\apps\php8.2\current\php.ini
-powershell -Command "(Get-Content '%PHP_INI_PATH%') -replace ';extension=zip', 'extension=zip' | Set-Content '%PHP_INI_PATH%'"
-powershell -Command "(Get-Content '%PHP_INI_PATH%') -replace ';extension=fileinfo', 'extension=fileinfo' | Set-Content '%PHP_INI_PATH%'"
-powershell -Command "(Get-Content '%PHP_INI_PATH%') -replace ';extension=pdo_mysql', 'extension=pdo_mysql' | Set-Content '%PHP_INI_PATH%'"
-powershell -Command "(Get-Content '%PHP_INI_PATH%') -replace ';extension=intl', 'extension=intl' | Set-Content '%PHP_INI_PATH%'"
+:: Vérifier l'extension ZIP si PHP est installé
+if %PHP_NEEDED%==0 (
+    echo.
+    echo Verification de l'extension ZIP...
+    php -r "exit(extension_loaded('zip') ? 0 : 1);" >nul 2>&1
+    if %errorLevel% neq 0 (
+        echo %YELLOW%L'extension ZIP n'est pas activee%RESET%
+        SET ZIP_EXTENSION_NEEDED=1
+    ) else (
+        echo %GREEN%OK: Extension ZIP est activee%RESET%
+    )
+)
 
-:: Installer Composer
+:: Vérifier Composer
 echo.
-echo %YELLOW%Installation de Composer...%RESET%
-powershell -Command "Invoke-WebRequest -Uri '%COMPOSER_SETUP_URL%' -OutFile composer-setup.exe"
-composer-setup.exe /SILENT
-del composer-setup.exe
+echo Verification de Composer...
+where composer >nul 2>&1
+if %errorLevel% neq 0 (
+    echo %YELLOW%Composer n'est pas installe%RESET%
+    SET COMPOSER_NEEDED=1
+) else (
+    echo %GREEN%OK: Composer est installe%RESET%
+)
 
-:: Installer Git
+:: Vérifier Git
 echo.
-echo %YELLOW%Installation de Git...%RESET%
-scoop install git
+echo Verification de Git...
+where git >nul 2>&1
+if %errorLevel% neq 0 (
+    echo %YELLOW%Git n'est pas installe%RESET%
+    SET GIT_NEEDED=1
+) else (
+    echo %GREEN%OK: Git est installe%RESET%
+)
 
-:: Configurer Git
+:: Vérifier VS Code
 echo.
-echo Configuration de Git...
-git config --global user.email "yessineslysquid@gmail.com"
-git config --global user.name "Maitre-Slysquid"
+echo Verification de Visual Studio Code...
+where code >nul 2>&1
+if %errorLevel% neq 0 (
+    echo %YELLOW%Visual Studio Code n'est pas installe%RESET%
+    SET VSCODE_NEEDED=1
+) else (
+    echo %GREEN%OK: Visual Studio Code est installe%RESET%
+)
 
-:: Installer Symfony CLI
+:: Vérifier Symfony CLI
 echo.
-echo %YELLOW%Installation de Symfony CLI...%RESET%
-scoop install symfony-cli
+echo Verification de Symfony CLI...
+where symfony >nul 2>&1
+if %errorLevel% neq 0 (
+    echo %YELLOW%Symfony CLI n'est pas installe%RESET%
+    SET SYMFONY_NEEDED=1
+) else (
+    echo %GREEN%OK: Symfony CLI est installe%RESET%
+)
+
+:: Résumé et confirmation
+echo.
+echo ===================================
+echo Resume des actions necessaires:
+echo ===================================
+SET ACTIONS_NEEDED=0
+
+if %SCOOP_NEEDED%==1 (
+    echo %YELLOW%- Installation de Scoop%RESET%
+    SET /A ACTIONS_NEEDED+=1
+)
+if %PHP_NEEDED%==1 (
+    echo %YELLOW%- Installation/Mise a jour de PHP%RESET%
+    SET /A ACTIONS_NEEDED+=1
+)
+if %ZIP_EXTENSION_NEEDED%==1 (
+    echo %YELLOW%- Activation de l'extension ZIP%RESET%
+    SET /A ACTIONS_NEEDED+=1
+)
+if %COMPOSER_NEEDED%==1 (
+    echo %YELLOW%- Installation de Composer%RESET%
+    SET /A ACTIONS_NEEDED+=1
+)
+if %SYMFONY_NEEDED%==1 (
+    echo %YELLOW%- Installation de Symfony CLI%RESET%
+    SET /A ACTIONS_NEEDED+=1
+)
+if %GIT_NEEDED%==1 (
+    echo %YELLOW%- Installation de Git%RESET%
+    SET /A ACTIONS_NEEDED+=1
+)
+if %VSCODE_NEEDED%==1 (
+    echo %YELLOW%- Installation de VS Code%RESET%
+    SET /A ACTIONS_NEEDED+=1
+)
+
+if %ACTIONS_NEEDED%==0 (
+    echo %GREEN%Tout est deja installe et configure correctement !%RESET%
+) else (
+    echo.
+    set /p CONFIRM="Voulez-vous proceder aux installations necessaires? (O/N): "
+    if /i "%CONFIRM%" neq "O" (
+        echo Installation annulee
+        goto SERVER_START
+    )
+
+    :: Installations
+    echo.
+    echo ===================================
+    echo Installation des composants manquants
+    echo ===================================
+
+    :: Installer Scoop si nécessaire
+    if %SCOOP_NEEDED%==1 (
+        echo.
+        echo Installation de Scoop...
+        powershell -Command "Set-ExecutionPolicy RemoteSigned -Scope CurrentUser"
+        powershell -Command "Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression"
+        if !errorLevel! neq 0 (
+            echo %RED%Erreur lors de l'installation de Scoop%RESET%
+            pause
+            exit /b 1
+        )
+        echo %GREEN%Scoop installe avec succes%RESET%
+    )
+
+    :: Installer PHP si nécessaire
+    if %PHP_NEEDED%==1 (
+        echo.
+        echo Installation de PHP %PHP_VERSION%...
+        scoop install php%PHP_VERSION%
+        if !errorLevel! neq 0 (
+            echo %RED%Erreur lors de l'installation de PHP%RESET%
+            pause
+            exit /b 1
+        )
+        echo %GREEN%PHP installe avec succes%RESET%
+    )
+
+    :: Configurer ZIP si nécessaire
+    if %ZIP_EXTENSION_NEEDED%==1 (
+        echo.
+        echo Configuration de l'extension ZIP...
+        SET PHP_INI_PATH=%USERPROFILE%\scoop\apps\php%PHP_VERSION%\current\php.ini
+        powershell -Command "(Get-Content '%PHP_INI_PATH%') -replace ';extension=zip', 'extension=zip' | Set-Content '%PHP_INI_PATH%'"
+        powershell -Command "(Get-Content '%PHP_INI_PATH%') -replace ';extension=fileinfo', 'extension=fileinfo' | Set-Content '%PHP_INI_PATH%'"
+        echo %GREEN%Extension ZIP configuree%RESET%
+    )
+
+    :: Installer Composer si nécessaire
+    if %COMPOSER_NEEDED%==1 (
+        echo.
+        echo Installation de Composer...
+        powershell -Command "Invoke-WebRequest -Uri '%COMPOSER_SETUP_URL%' -OutFile composer-setup.exe"
+        composer-setup.exe /SILENT
+        del composer-setup.exe
+        echo %GREEN%Composer installe avec succes%RESET%
+    )
+
+    :: Installer Git si nécessaire
+    if %GIT_NEEDED%==1 (
+        echo.
+        echo Installation de Git...
+        scoop install git
+        if !errorLevel! neq 0 (
+            echo %RED%Erreur lors de l'installation de Git%RESET%
+            pause
+            exit /b 1
+        )
+        echo %GREEN%Git installe avec succes%RESET%
+    )
+
+    :: Configurer Git
+    echo.
+    echo Configuration de Git...
+    git config --global user.email "yessineslysquid@gmail.com"
+    git config --global user.name "Maitre-Slysquid"
+    echo %GREEN%Git configure avec succes%RESET%
+
+    :: Installer VS Code si nécessaire
+    if %VSCODE_NEEDED%==1 (
+        echo.
+        echo Installation de Visual Studio Code...
+        scoop bucket add extras
+        scoop install vscode
+        if !errorLevel! neq 0 (
+            echo %RED%Erreur lors de l'installation de VS Code%RESET%
+            pause
+            exit /b 1
+        )
+        echo %GREEN%Visual Studio Code installe avec succes%RESET%
+    )
+
+    :: Installation des extensions VS Code nécessaires
+    echo.
+    echo Installation des extensions VS Code...
+    code --install-extension github.vscode-pull-request-github
+    code --install-extension github.copilot
+    code --install-extension github.github-vscode-theme
+    echo %GREEN%Extensions VS Code installees avec succes%RESET%
+
+    :: Ouvrir l'interface GitHub dans VS Code
+    echo.
+    echo Ouverture de l'authentification GitHub dans VS Code...
+    start "" "vscode://github.copilot.authLauncher"
+    timeout /t 2 >nul
+    start "" "vscode://vscode.github-authentication/did-authenticate"
+
+    :: Installer Symfony CLI si nécessaire
+    if %SYMFONY_NEEDED%==1 (
+        echo.
+        echo Installation de Symfony CLI...
+        scoop bucket add main
+        scoop install symfony-cli
+        if !errorLevel! neq 0 (
+            echo %RED%Erreur lors de l'installation de Symfony CLI%RESET%
+            pause
+            exit /b 1
+        )
+        echo %GREEN%Symfony CLI installe avec succes%RESET%
+    )
+)
+
+:SERVER_START
+:: Demander si l'utilisateur veut lancer le serveur
+echo.
+echo %YELLOW%Voulez-vous lancer le serveur Symfony? (O/N):%RESET%
+set /p "START_SERVER="
+
+if /i "%START_SERVER%"=="O" (
+    echo.
+    echo %YELLOW%Entrez le chemin de votre projet Symfony:%RESET%
+    set /p "SYMFONY_PATH="
+
+    if not "%SYMFONY_PATH%"=="" (
+        if exist "%SYMFONY_PATH%" (
+            echo.
+            echo %YELLOW%Installation des dependances Composer...%RESET%
+            cd /d "%SYMFONY_PATH%"
+            composer install
+            if !errorLevel! neq 0 (
+                echo %RED%Erreur lors de l'installation des dependances%RESET%
+            ) else (
+                echo %GREEN%Dependances installees avec succes%RESET%
+                echo.
+                echo %YELLOW%Demarrage du serveur Symfony...%RESET%
+                symfony server:stop 2>nul
+                symfony server:start
+            )
+        ) else (
+            echo %RED%Le chemin specifie n'existe pas%RESET%
+        )
+    ) else (
+        echo %RED%Aucun chemin specifie%RESET%
+    )
+) else (
+    echo.
+    echo %YELLOW%Pour demarrer le serveur plus tard, utilisez:%RESET%
+    echo cd chemin/vers/votre/projet
+    echo symfony server:start
+)
 
 :: Vérification finale
 echo.
 echo ===================================
-echo Verification de l'installation
+echo Verification finale de l'installation
 echo ===================================
-echo.
-php -v
-echo.
-composer -V
-echo.
-symfony -v
+
 echo.
 symfony check:requirements
 
 echo.
-echo %GREEN%Installation terminee !%RESET%
-echo Pour lancer un projet Symfony:
-echo 1. cd chemin/vers/votre/projet
-echo 2. composer install
-echo 3. symfony server:start
-
+echo Installation terminee ! Verifiez les messages ci-dessus pour vous assurer que tout est correct.
 pause
