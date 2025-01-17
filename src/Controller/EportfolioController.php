@@ -102,4 +102,30 @@ final class EportfolioController extends AbstractController{
             'infos' => $infos
         ]);
     }
+    
+    #[Route('/eportfolio/portfolio', name: 'app_eportfolio_portfolio')]
+    public function portfolio(): Response
+    {
+        $competences = [
+            'AC1' => [
+                'title' => 'Administrer les réseaux et l\'Internet',
+                'description' => 'Configuration, supervision et dépannage des infrastructures réseaux',
+                'level' => 75
+            ],
+            'AC2' => [
+                'title' => 'Connecter les entreprises et les usagers',
+                'description' => 'Installation et maintenance des accès aux services de télécommunications',
+                'level' => 70
+            ],
+            'AC3' => [
+                'title' => 'Créer des outils et applications informatiques',
+                'description' => 'Développement d\'outils pour l\'administration et la supervision',
+                'level' => 65
+            ]
+        ];
+        
+        return $this->render('eportfolio/portfolio.html.twig', [
+            'competences' => $competences
+        ]);
+    }
 }
