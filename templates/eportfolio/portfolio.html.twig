@@ -295,7 +295,8 @@
                                 <span class="d-block text-end mt-2">{{ competence.level }}%</span>
                             </div>
                             
-                            <a href="#" class="document-proof-btn">
+                            <a class="document-proof-btn" 
+                            href="{{ path('app_download_preuve', {'code': code|slice(2)}) }}">
                                 DOCUMENT DE PREUVE
                             </a>
                         </div>
@@ -348,17 +349,16 @@
                         <!-- Face arrière -->
                         <div class="flip-card-back d-flex flex-column justify-content-between">
                             <div>
-                                <h4 class="mb-4">Points Forts</h4>
+                                <h4>POINTS FORTS</h4>
                                 <ul class="list-unstyled mb-4">
                                     {% for strength in competence.strengths %}
-                                        <li class="mb-2"><i class="fas fa-check me-2"></i>{{ strength }}</li>
+                                        <li class="mb-2">{{ strength }}</li>
                                     {% endfor %}
                                 </ul>
                             </div>
-                            <a href="path/to/analyse_reflexive_{{ code }}.pdf" 
-                               class="btn btn-light mt-auto" 
-                               download>
-                                <i class="fas fa-file-alt me-2"></i>Voir l'analyse réflexive
+                            <a class="btn btn-light mt-auto" 
+                            href="{{ path('app_download_analyse', {'code': code|slice(2)}) }}">
+                                VOIR L'ANALYSE RÉFLEXIVE
                             </a>
                         </div>
                     </div>
@@ -474,6 +474,62 @@ document.addEventListener('DOMContentLoaded', function() {
             this.querySelector('.flip-card-inner').style.transform = 'rotateY(0deg)';
         });
     });
+    function downloadFile(filePath) {
+    event.preventDefault(); // Empêche le retour en haut de page
+    const link = document.createElement('a');
+    link.href = filePath;
+    link.download = filePath.split('/').pop();
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    }
+});
+// Gestionnaire pour les téléchargements de documents
+document.addEventListener('click', function(e) {
+    if (e.target.matches('.document-proof-btn')) {
+        e.preventDefault();
+        const href = e.target.getAttribute('href');
+        const code = href.split('/').pop();
+        fetch(`/eportfolio/portfolio/preuve/${code}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Document non trouvé');
+                }
+                return response.blob();
+            })
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `AC0${code}_preuve.pdf`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                a.remove();
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                alert('Le document de preuve n\'a pas pu être chargé');
+            });
+    }
+    
+    if (e.target.matches('.btn.btn-light')) {
+        e.preventDefault();
+        const href = e.target.getAttribute('href');
+        const code = href.split('/').pop();
+        fetch(`/eportfolio/portfolio/analyse/${code}`)
+            .then(response => response.blob())
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `AC0${code}_analyse.pdf`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                a.remove();
+            });
+    }
 });
 </script>
 {% endblock %}

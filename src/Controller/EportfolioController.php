@@ -5,6 +5,8 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+
 
 final class EportfolioController extends AbstractController{
     #[Route('/eportfolio', name: 'app_eportfolio')]
@@ -119,7 +121,9 @@ final class EportfolioController extends AbstractController{
                     'Compréhension des lois fondamentales',
                     'Réalisation de mesures simples',
                     'Respect des procédures de sécurité'
-                ]
+                ],
+                'preuve_path' => 'documents_de_preuve/AC0111.pdf',
+                'analyse_path' => 'analyse_reflexives/AC0111.pdf'
             ],
             'AC113' => [
                 'title' => 'Configuration Réseaux',
@@ -133,7 +137,9 @@ final class EportfolioController extends AbstractController{
                     'Configuration rapide des switchs',
                     'Maîtrise des VLANs',
                     'Tests de connectivité réussis'
-                ]
+                ],
+                'preuve_path' => 'documents_de_preuve/AC0113.pdf',
+                'analyse_path' => 'analyse_reflexives/AC0113.pdf'
             ],
             'AC114' => [
                 'title' => 'Administration Système',
@@ -147,7 +153,9 @@ final class EportfolioController extends AbstractController{
                     'Maîtrise des commandes de base',
                     'Configuration système efficace',
                     'Documentation des procédures'
-                ]
+                ],
+                'preuve_path' => 'documents_de_preuve/AC0114.pdf',
+                'analyse_path' => 'analyse_reflexives/AC0114.pdf'
             ],
             'AC115' => [
                 'title' => 'Diagnostic Réseau',
@@ -161,7 +169,9 @@ final class EportfolioController extends AbstractController{
                     'Analyse approfondie des trames',
                     'Méthodologie de diagnostic',
                     'Résolution efficace des problèmes'
-                ]
+                ],
+                'preuve_path' => 'documents_de_preuve/AC0115.pdf',
+                'analyse_path' => 'analyse_reflexives/AC0115.pdf'
             ],
             'AC116' => [
                 'title' => 'Installation Client',
@@ -175,7 +185,9 @@ final class EportfolioController extends AbstractController{
                     'Installation système rapide',
                     'Configuration réseau complète',
                     'Support utilisateur efficace'
-                ]
+                ],
+                'preuve_path' => 'documents_de_preuve/AC0116.pdf',
+                'analyse_path' => 'analyse_reflexives/AC0116.pdf'
             ]
         ];
     
@@ -215,5 +227,23 @@ final class EportfolioController extends AbstractController{
             'milestones' => $milestones,
             'objectives' => $objectives
         ]);
+    }
+
+    // Routes pour télécharger les analyses réflexives
+
+    #[Route('/eportfolio/portfolio/analyse/{code}', name: 'app_download_analyse')]
+    public function downloadAnalyse(string $code): BinaryFileResponse
+    {
+        // Ajout de '0' après 'AC'
+        $filePath = $this->getParameter('kernel.project_dir') . '/public/portfolio/analyses_reflexives/AC0' . $code . '.pdf';
+        return new BinaryFileResponse($filePath);
+    }
+
+    #[Route('/eportfolio/portfolio/preuve/{code}', name: 'app_download_preuve')]
+    public function downloadPreuve(string $code): BinaryFileResponse
+    {
+        // Ajout de '0' après 'AC'
+        $filePath = $this->getParameter('kernel.project_dir') . '/public/portfolio/documents_de_preuves/AC0' . $code . '.pdf';
+        return new BinaryFileResponse($filePath);
     }
 }
