@@ -14,8 +14,8 @@ final class EportfolioController extends AbstractController{
             'controller_name' => 'EportfolioController',
         ]);
     }
-    #[Route('/eportfolio/page1', name: 'app_eportfolio_page1')]
-    public function page1(): Response
+    #[Route('/eportfolio/accueil', name: 'app_eportfolio_accueil')]
+    public function accueil(): Response
     {
         $infos = [
             'prenom' => 'Yessine',
@@ -33,14 +33,14 @@ final class EportfolioController extends AbstractController{
                 'long_term' => 'Engineering School specializing in Network Security',
             ]
         ];
-        return $this->render('eportfolio/page1.html.twig', [
+        return $this->render('eportfolio/accueil.html.twig', [
             'infos' => $infos
         ]);
     }
-    #[Route('/eportfolio/page2', name: 'app_eportfolio_page2')]
-    public function page2(): Response
+    #[Route('/eportfolio/cv', name: 'app_eportfolio_cv')]
+    public function cv(): Response
     {
-        return $this->render('eportfolio/page2.html.twig', [
+        return $this->render('eportfolio/cv.html.twig', [
             'controller_name' => 'EportfolioController',
         ]);
     }
@@ -105,27 +105,115 @@ final class EportfolioController extends AbstractController{
     
     #[Route('/eportfolio/portfolio', name: 'app_eportfolio_portfolio')]
     public function portfolio(): Response
-    {
+    {       
         $competences = [
-            'AC1' => [
-                'title' => 'Administrer les réseaux et l\'Internet',
-                'description' => 'Configuration, supervision et dépannage des infrastructures réseaux',
-                'level' => 75
+            'AC111' => [
+                'title' => 'Électricité fondamentale',
+                'description' => 'Maîtrise des lois et mesures électriques',
+                'level' => 65,
+                'acquisition' => 2, // niveau 2/4 d'après l'image
+                'icon' => 'fa-bolt',
+                'quote' => "Bonne compréhension théorique des lois fondamentales",
+                'skills' => ['Lois électriques', 'Mesures', 'Oscilloscope'],
+                'strengths' => [
+                    'Compréhension des lois fondamentales',
+                    'Réalisation de mesures simples',
+                    'Respect des procédures de sécurité'
+                ]
             ],
-            'AC2' => [
-                'title' => 'Connecter les entreprises et les usagers',
-                'description' => 'Installation et maintenance des accès aux services de télécommunications',
-                'level' => 70
+            'AC113' => [
+                'title' => 'Configuration Réseaux',
+                'description' => 'Configuration de switchs et VLANs',
+                'level' => 85,
+                'acquisition' => 4, // niveau 4/4 validé
+                'icon' => 'fa-network-wired',
+                'quote' => "J'ai très vite compris comment configurer un switch à partir des TP",
+                'skills' => ['CISCO', 'VLAN', 'Configuration Réseau'],
+                'strengths' => [
+                    'Configuration rapide des switchs',
+                    'Maîtrise des VLANs',
+                    'Tests de connectivité réussis'
+                ]
             ],
-            'AC3' => [
-                'title' => 'Créer des outils et applications informatiques',
-                'description' => 'Développement d\'outils pour l\'administration et la supervision',
-                'level' => 65
+            'AC114' => [
+                'title' => 'Administration Système',
+                'description' => 'Gestion des systèmes d\'exploitation',
+                'level' => 70,
+                'acquisition' => 4, // niveau 4/4 validé
+                'icon' => 'fa-server',
+                'quote' => "La pratique régulière sur machine a été essentielle pour la compréhension",
+                'skills' => ['Linux', 'Windows', 'Administration'],
+                'strengths' => [
+                    'Maîtrise des commandes de base',
+                    'Configuration système efficace',
+                    'Documentation des procédures'
+                ]
+            ],
+            'AC115' => [
+                'title' => 'Diagnostic Réseau',
+                'description' => 'Analyse et résolution de problèmes',
+                'level' => 75,
+                'acquisition' => 4, // niveau 4/4 validé
+                'icon' => 'fa-search',
+                'quote' => "J'ai réussi à maîtriser les outils de base comme Wireshark",
+                'skills' => ['Wireshark', 'IOS', 'Analyse'],
+                'strengths' => [
+                    'Analyse approfondie des trames',
+                    'Méthodologie de diagnostic',
+                    'Résolution efficace des problèmes'
+                ]
+            ],
+            'AC116' => [
+                'title' => 'Installation Client',
+                'description' => 'Installation et configuration de postes',
+                'level' => 80,
+                'acquisition' => 4, // niveau 4/4 validé
+                'icon' => 'fa-desktop',
+                'quote' => "Configuration réussie de postes dans des environnements simples",
+                'skills' => ['Configuration', 'Virtualisation', 'Support'],
+                'strengths' => [
+                    'Installation système rapide',
+                    'Configuration réseau complète',
+                    'Support utilisateur efficace'
+                ]
             ]
         ];
-        
+    
+        $milestones = [
+            [
+                'title' => 'Premier Semestre',
+                'description' => 'Maîtrise de la configuration des switchs Cisco et des VLANs',
+                'skills' => ['CISCO', 'VLAN', 'Network Basics']
+            ],
+            [
+                'title' => 'Certification CCNA en cours',
+                'description' => 'Préparation de la certification "Présentation des réseaux"',
+                'skills' => ['CCNA', 'Networking', 'Professional Development']
+            ],
+            [
+                'title' => 'Projets Académiques',
+                'description' => 'Configuration réussie de réseaux complexes lors des SAÉs',
+                'skills' => ['Project Management', 'Network Configuration', 'Problem Solving']
+            ]
+        ];
+    
+        $objectives = [
+            [
+                'title' => 'CCNA',
+                'progress' => 15,
+                'description' => 'Début de la formation "Présentation des réseaux"'
+            ],
+            [
+                'title' => 'Compétences Linux',
+                'progress' => 70,
+                'description' => 'Apprentissage des commandes de base'
+            ]
+        ];
+    
         return $this->render('eportfolio/portfolio.html.twig', [
-            'competences' => $competences
+            'competences' => $competences,
+            'milestones' => $milestones,
+            'objectives' => $objectives
         ]);
     }
 }

@@ -139,7 +139,7 @@
 
 {% block body %}
 <!-- Hero Section -->
-<section class="hero-background hero-section">
+<header class="hero-background hero-section">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-7" data-aos="fade-right">
@@ -147,7 +147,7 @@
                 <h2 class="text-white h3 mb-4" style="font-weight: 300;">Networks & Telecommunications Student</h2>
                 <p class="lead text-white mb-5">{{ infos.presentation }}</p>
                 <div class="d-flex gap-3">
-                    <a href="{{ path('app_eportfolio_page2') }}" class="custom-btn">View My CV</a>
+                    <a href="{{ path('app_eportfolio_cv') }}" class="custom-btn">View My CV</a>
                     <a href="{{ path('app_eportfolio_aboutme') }}" class="custom-btn">Discover More</a>
                 </div>
             </div>
@@ -176,7 +176,7 @@
             </div>
         </div>
     </div>
-</section>
+</header>
 
 <!-- Current Focus Section -->
 <section class="skill-section">

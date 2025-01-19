@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}E-Portfolio - Competences Overview{% endblock %}
+{% block title %}E-Portfolio - Skills Overview{% endblock %}
 
 {% block stylesheets %}
 {{ parent() }}
 <style>
-    /* Section Header avec dégradé */
+    /* Styles de base */
     .portfolio-header {
         background: linear-gradient(-45deg, #23a6d5, #23d5ab);
         background-size: 400% 400%;
@@ -16,97 +16,464 @@
         clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
     }
 
-    @keyframes gradient {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
+    /* Carousel principal */
+    .carousel-item {
+        min-height: 300px;
     }
 
-    /* Cards pour les compétences */
-    .competence-card {
-        background: white;
-        border-radius: 15px;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-        transition: all 0.3s ease;
+    .badge {
+        font-weight: normal;
+        font-size: 0.9rem;
+        background-color: rgba(13, 202, 240, 0.1) !important;
+        color: #0dcaf0 !important;
+        border: 1px solid rgba(13, 202, 240, 0.2);
+    }
+
+    .progress {
+        background-color: rgba(13, 202, 240, 0.1);
+        border-radius: 5px;
+        height: 10px;
+    }
+
+    .progress-bar {
+        border-radius: 5px;
+        transition: width 1s ease;
+    }
+
+    /* Navigation du carousel */
+    .carousel-control-prev,
+    .carousel-control-next {
+        width: 10%;
+        opacity: 1;
+    }
+
+    .carousel-control-prev,
+    .carousel-control-next {
+        width: 10%;
+        opacity: 1;
+        top: 50%;
+        transform: translateY(-50%);
+        position: absolute;
+    }
+
+    .carousel-control-prev span {
+        margin-left: -50px; /* Réduit la distance par rapport au bord */
+    }
+
+    .carousel-control-next span {
+        margin-right: -50px; /* Réduit la distance par rapport au bord */
+    }
+
+    /* Indicateurs du carousel */
+    .carousel-indicators {
+        position: relative;
+        margin-top: 1rem;
+    }
+
+    .carousel-indicators button {
+        width: 30px;
+        height: 4px;
         border: none;
+        border-radius: 2px;
+        margin: 0 4px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        opacity: 0.5;
     }
 
-    .competence-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    .carousel-indicators button.active {
+        opacity: 1;
+        width: 30px;
     }
 
-    /* Section claire */
-    .light-section {
-        background-color: #f8f9fa;
-        padding: 6rem 0;
-        margin: 4rem 0;
+   .flip-card {
+    perspective: 1000px;
+    height: 400px;
+    margin-bottom: 2rem;
     }
 
-    /* Progress bars */
-    .progress-custom {
+    .flip-card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.8s;
+        transform-style: preserve-3d;
+        cursor: pointer;
+    }
+
+    .flip-card-inner.flipped {
+        transform: rotateY(180deg);
+    }
+
+    .flip-card-front, 
+    .flip-card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        border-radius: 20px;
+        padding: 2rem;
+    }
+
+    .flip-card-front {
+        background: white;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    }
+
+    .flip-card-back {
+        background: linear-gradient(135deg, #23a6d5, #23d5ab);
+        color: white;
+        transform: rotateY(180deg);
+    }
+
+    /* Badges compétences */
+    .skill-badge {
+        background: rgba(35, 166, 213, 0.1);
+        color: #23a6d5;
+        padding: 0.5rem 1rem;
+        border-radius: 15px;
+        margin: 0.25rem;
+        display: inline-block;
+        transition: all 0.3s ease;
+    }
+
+    .skill-badge:hover {
+        background: #23a6d5;
+        color: white;
+    }
+    /* Style pour les boutons CTA */
+    .cta-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 200px;
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-align: center;
+        text-decoration: none;
+        margin: 0 10px;
+    }
+
+    .cta-button-primary {
+        background: white;
+        color: #1a1a1a;
+    }
+
+    .cta-button-outline {
+        border: 2px solid white;
+        color: white;
+    }
+
+    .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    .skill-tag {
+    background-color: rgba(0, 193, 255, 0.1);
+    color: #00C1FF;
+    padding: 8px 16px;
+    border-radius: 20px;
+    display: inline-block;
+    }
+
+    .progress {
+        background-color: #F5F5F5;
+        border-radius: 10px;
+    }
+
+    .progress-bar {
+        border-radius: 10px;
+    }
+
+    .carousel-nav {
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        transform: translateY(-50%);
+    }
+
+    .carousel-indicators {
+        position: relative;
+        margin-top: 1rem;
+    }
+
+    .carousel-indicators button {
+        width: 8px;
         height: 8px;
+        border-radius: 50%;
+        background-color: #00C1FF;
+        opacity: 0.5;
+        margin: 0 4px;
+    }
+
+    .carousel-indicators button.active {
+        opacity: 1;
+    }
+    /* Style pour le bouton centré */
+    .document-proof-btn {
+        display: block;
+        width: fit-content;
+        margin: 2rem auto 0;
+        padding: 0.5rem 1.5rem;
+        border: 2px solid #00C1FF;
         border-radius: 4px;
+        color: #00C1FF;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .document-proof-btn:hover {
+        background-color: #00C1FF;
+        color: white;
+    }
+
+    /* Style pour les flèches */
+    .carousel-control-prev,
+    .carousel-control-next {
+        background: none;
+        border: none;
+        width: auto;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .carousel-control-prev {
+        left: -50px; /* Place la flèche en dehors */
+    }
+
+    .carousel-control-next {
+        right: -50px; /* Place la flèche en dehors */
+    }
+
+    /* Conteneur du carousel avec padding pour les flèches */
+    .carousel-container {
+        position: relative;
+        padding: 0 60px;
     }
 </style>
 {% endblock %}
 
 {% block body %}
 <!-- Header Section -->
-<section class="portfolio-header">
+<header class="portfolio-header">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-8 offset-lg-2 text-center">
-                <h1 class="display-4 fw-bold mb-4">Competency Portfolio</h1>
-                <p class="lead">Demonstrating my skills and achievements in Networks & Telecommunications</p>
+                <h1 class="display-4 fw-bold mb-4">Portfolio</h1>
+                <p class="lead">Un pas de plus pour mieux me connaitre</p>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Carousel des compétences -->
+<section class="container mt-5">
+    <div class="carousel-container">
+        <div id="skillsCarousel" class="carousel slide">
+            <div class="carousel-inner bg-white rounded-lg shadow-lg p-4">
+                {% set validatedCompetences = competences|filter(c => c.acquisition == 4) %}
+                {% for code, competence in validatedCompetences %}
+                    <div class="carousel-item {% if loop.first %}active{% endif %}">
+                        <div class="p-4">
+                            <h2 class="mb-4 fw-bold">{{ competence.title }}</h2>
+                            <p class="text-muted mb-4">{{ competence.quote }}</p>
+                            <div class="mb-4">
+                                {% for skill in competence.skills %}
+                                    <span class="skill-tag me-2">{{ skill }}</span>
+                                {% endfor %}
+                            </div>
+                            <div class="progress-container">
+                                <div class="progress" style="height: 15px;">
+                                    <div class="progress-bar bg-info" 
+                                         role="progressbar" 
+                                         style="width: {{ competence.level }}%">
+                                    </div>
+                                </div>
+                                <span class="d-block text-end mt-2">{{ competence.level }}%</span>
+                            </div>
+                            
+                            <a href="#" class="document-proof-btn">
+                                DOCUMENT DE PREUVE
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Flèches de navigation -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#skillsCarousel" data-bs-slide="prev">
+                <span class="text-success" style="font-size: 2rem;">&lt;</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#skillsCarousel" data-bs-slide="next">
+                <span class="text-success" style="font-size: 2rem;">&gt;</span>
+            </button>
+
+            <!-- Indicateurs -->
+            <div class="carousel-indicators">
+                {% for i in 0..validatedCompetences|length - 1 %}
+                    <button type="button" 
+                            data-bs-target="#skillsCarousel" 
+                            data-bs-slide-to="{{ i }}"
+                            class="{% if loop.first %}active{% endif %}">
+                    </button>
+                {% endfor %}
             </div>
         </div>
     </div>
 </section>
+<!-- Section des compétences clés -->
+<section class="core-competencies mt-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Compétences Clés</h2>
+        <div class="row g-4">
+            {% for code, competence in competences|filter(c => c.acquisition == 4) %}
+            <div class="col-lg-4">
+                <div class="flip-card" onclick="this.querySelector('.flip-card-inner').classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <!-- Face avant -->
+                        <div class="flip-card-front">
+                            <div class="skill-icon mb-4">
+                                <i class="fas {{ competence.icon }} fa-3x text-info"></i>
+                            </div>
+                            <h3 class="mb-3">{{ competence.title }}</h3>
+                            <div class="skill-badges">
+                                {% for skill in competence.skills %}
+                                    <span class="skill-badge">{{ skill }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <!-- Face arrière -->
+                        <div class="flip-card-back d-flex flex-column justify-content-between">
+                            <div>
+                                <h4 class="mb-4">Points Forts</h4>
+                                <ul class="list-unstyled mb-4">
+                                    {% for strength in competence.strengths %}
+                                        <li class="mb-2"><i class="fas fa-check me-2"></i>{{ strength }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <a href="path/to/analyse_reflexive_{{ code }}.pdf" 
+                               class="btn btn-light mt-auto" 
+                               download>
+                                <i class="fas fa-file-alt me-2"></i>Voir l'analyse réflexive
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
 
-<!-- Main Content Section -->
-<div class="row g-4">
-    {% for code, competence in competences %}
-        <div class="col-lg-4">
-            <div class="competence-card p-4">
-                <h3 class="h4 mb-3">{{ competence.title }}</h3>
-                <p class="text-muted">{{ competence.description }}</p>
-                <div class="progress progress-custom">
-                    <div class="progress-bar" role="progressbar" 
-                         style="width: {{ competence.level }}%" 
-                         aria-valuenow="{{ competence.level }}" 
-                         aria-valuemin="0" 
-                         aria-valuemax="100">
+<!-- Interactive Timeline -->
+<section class="objectives-section mt-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Objectifs</h2>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="objectives-card">
+                    <div class="objective-item">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h4>CCNA</h4>
+                            <span class="progress-label">15%</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: 15%"></div>
+                        </div>
+                        <p class="text-muted mt-2">Début de la formation "Présentation des réseaux"</p>
+                    </div>
+                    
+                    <div class="objective-item mt-4">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h4>Compétences Linux</h4>
+                            <span class="progress-label">70%</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: 70%"></div>
+                        </div>
+                        <p class="text-muted mt-2">Apprentissage des commandes de base</p>
                     </div>
                 </div>
             </div>
         </div>
-    {% endfor %}
-</div>
-
-<!-- Skills Evidence Section -->
-<section class="light-section">
-    <div class="container">
-    {# Preuves des compétences ici #}
     </div>
 </section>
 
-<!-- Progress Overview -->
-<section class="container my-5">
-    {# Vue d'ensemble des progrès ici #}
-</section>
-
-<!-- Call-to-Action Section -->
-<section style="background: #1a1a1a;" class="py-5">
-    <div class="container">
-        <div class="text-center">
-            <h2 class="display-5 text-white mb-4" style="font-weight: 300;">INTERESTED IN MY WORK?</h2>
-            <p class="lead text-white-50 mb-5">Let's discuss how my skills can contribute to your projects</p>
-            <a href="#contact" class="btn btn-outline-light px-5 py-3 rounded-pill" 
-               style="font-weight: 500; letter-spacing: 0.5px; transition: all 0.3s ease;">
-               Get In Touch
+<!-- Call to Action -->
+<section class="py-5" style="background: rgba(26, 26, 26, 0.95);">
+    <div class="container text-center">
+        <h2 class="text-white mb-4">Prêt à collaborer?</h2>
+        <p class="text-white-50 mb-5">Découvrez comment mes compétences peuvent vous aider dans vos projets.</p>
+        <div class="d-flex justify-content-center gap-4">
+            <a href="{{ path('app_eportfolio_cv') }}" class="cta-button cta-button-primary">
+                Voir mon CV
+            </a>
+            <a href="#contact" class="cta-button cta-button-outline">
+                Contactez moi
             </a>
         </div>
     </div>
 </section>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Animation pour les cercles de progression
+    const progressCircles = document.querySelectorAll('.progress-circle');
+    progressCircles.forEach(circle => {
+        const value = circle.getAttribute('data-value');
+        circle.style.setProperty('--progress', `${value * 3.6}deg`);
+    });
+
+    // Animation pour les cartes au scroll
+    const cards = document.querySelectorAll('.competence-card');
+    const observer = new IntersectionObserver(
+        entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.transform = 'translateY(0)';
+                    entry.target.style.opacity = '1';
+                }
+            });
+        },
+        { threshold: 0.1 }
+    );
+
+    cards.forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        observer.observe(card);
+    });
+    const carousel = new bootstrap.Carousel(document.getElementById('skillsCarousel'), {
+        interval: 5000
+    });
+    document.getElementById('skillsCarousel').addEventListener('slide.bs.carousel', function (e) {
+        const indicators = document.querySelectorAll('.carousel-indicators button');
+        indicators.forEach(indicator => {
+            indicator.style.backgroundColor = '#6c757d';
+            indicator.style.width = '10px';
+        });
+        indicators[e.to].style.backgroundColor = '#0dcaf0';
+        indicators[e.to].style.width = '30px';
+    });
+
+
+    // Flip cards animation
+    const flipCards = document.querySelectorAll('.flip-card');
+    flipCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.querySelector('.flip-card-inner').style.transform = 'rotateY(180deg)';
+        });
+        card.addEventListener('mouseleave', function() {
+            this.querySelector('.flip-card-inner').style.transform = 'rotateY(0deg)';
+        });
+    });
+});
+</script>
 {% endblock %}

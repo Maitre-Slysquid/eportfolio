@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mon CV - Network Security Architect{% endblock %}
+{% block title %}Mon CV - Administrateur Réseau{% endblock %}
 
 {% block stylesheets %}
 {{ parent() }}
@@ -81,6 +81,8 @@
         transform: translateY(-3px);
         box-shadow: 0 5px 15px rgba(65, 105, 225, 0.3);
     }
+
+    /* Styles pour le modal style Mac */
     .modal-content {
         border-radius: 0.5rem;
     }
@@ -89,6 +91,7 @@
         opacity: 0.8;
         cursor: pointer;
     }
+
     .mac-modal .modal-content {
         border-radius: 12px;
         overflow: hidden;
@@ -204,7 +207,22 @@
 {% endblock %}
 
 {% block body %}
-<div class="modal fade mac-modal" id="cvModal" tabindex="-1" aria-hidden="true">
+<!-- Header avec le poste -->
+<header class="cv-header mb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2 text-center">
+                <h1 class="display-4 fw-bold mb-4">Administrateur Réseau</h1>
+                <p class="lead mb-4">Configuration et administration d'infrastructures réseau</p>
+                <a href="#" class="download-cv" data-bs-toggle="modal" data-bs-target="#cvModal">
+                    <i class="fas fa-download me-2"></i>Télécharger le CV
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section class="modal fade mac-modal" id="cvModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -248,22 +266,7 @@
             </div>
         </div>
     </div>
-</div>
-
-<!-- Header avec le poste de rêve -->
-<header class="cv-header mb-5">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 offset-lg-2 text-center">
-                <h1 class="display-4 fw-bold mb-4">Network Security Architect</h1>
-                <p class="lead mb-4">Spécialisé en architecture de sécurité réseau et cloud computing</p>
-                <a href="#" class="download-cv" data-bs-toggle="modal" data-bs-target="#cvModal">
-                    <i class="fas fa-download me-2"></i>Télécharger le CV
-                </a>
-            </div>
-        </div>
-    </div>
-</header>
+</section>
 
 <div class="container">
     <!-- Formations -->
@@ -272,44 +275,43 @@
         <div class="timeline">
             <div class="experience-item">
                 <h4>BUT Réseaux et Télécommunications</h4>
-                <p class="text-muted">IUT de XXX | 2023 - 2026</p>
+                <p class="text-muted">IUT de Roanne | 2023 - 2026</p>
                 <ul>
-                    <li>Spécialisation en Cybersécurité et Cloud Computing</li>
-                    <li>Projets majeurs en administration système et réseaux</li>
-                    <li>Formation pratique sur les technologies Cisco et Linux</li>
+                    <li>Formation approfondie en administration réseau et systèmes</li>
+                    <li>Spécialisation progressive en configuration de réseaux</li>
+                    <li>Certification CCNA "Présentation des réseaux" en cours</li>
                 </ul>
             </div>
             <div class="experience-item">
-                <h4>Baccalauréat STI2D</h4>
-                <p class="text-muted">Lycée XXX | 2023</p>
+                <h4>Baccalauréat Général</h4>
+                <p class="text-muted">Lycée Carriat, Bourg-en-Bresse | 2023</p>
                 <ul>
-                    <li>Spécialité SIN (Systèmes d'Information et Numérique)</li>
-                    <li>Mention Très Bien</li>
+                    <li>Spécialités : Mathématiques et Sciences de l'Ingénieur</li>
+                    <li>Formation scientifique solide pour les études en réseaux</li>
                 </ul>
             </div>
         </div>
     </section>
 
-    <!-- Expériences Professionnelles -->
+    <!-- Expériences -->
     <section class="section-card">
-        <h2 class="mb-4">Expériences Professionnelles</h2>
+        <h2 class="mb-4">Expériences & Projets</h2>
         <div class="timeline">
             <div class="experience-item">
-                <h4>Stage - Assistant Administrateur Réseau</h4>
-                <p class="text-muted">Entreprise XXX | Été 2024</p>
+                <h4>Projets Académiques - Configuration Réseau</h4>
+                <p class="text-muted">IUT R&T | 2023-2024</p>
                 <ul>
-                    <li>Configuration et maintenance de l'infrastructure réseau</li>
-                    <li>Mise en place de solutions de sécurité réseau</li>
-                    <li>Support technique niveau 2</li>
+                    <li>Configuration avancée de switches Cisco 2960X</li>
+                    <li>Mise en place de VLANs et gestion du routage</li>
+                    <li>Participation aux situations d'apprentissage évaluées</li>
                 </ul>
             </div>
             <div class="experience-item">
-                <h4>Projet Académique - Infrastructure Cloud</h4>
-                <p class="text-muted">IUT R&T | 2023</p>
+                <h4>Perspectives - Alternance</h4>
+                <p class="text-muted">2024-2025</p>
                 <ul>
-                    <li>Déploiement d'une infrastructure cloud avec AWS</li>
-                    <li>Configuration de services réseau virtualisés</li>
-                    <li>Mise en place de monitoing et sécurité</li>
+                    <li>Recherche d'alternance en administration réseau</li>
+                    <li>Objectif de mise en pratique des compétences en environnement professionnel</li>
                 </ul>
             </div>
         </div>
@@ -326,27 +328,27 @@
                 <div class="col-md-6">
                     <div class="mb-3">
                         <div class="d-flex justify-content-between mb-1">
-                            <span>Administration Réseau</span>
-                            <span>90%</span>
+                            <span>Configuration Réseau Cisco</span>
+                            <span>85%</span>
                         </div>
                         <div class="progress">
-                            <div class="progress-bar progress-bar-custom bg-primary" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar progress-bar-custom bg-primary" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
                     <div class="mb-3">
                         <div class="d-flex justify-content-between mb-1">
-                            <span>Sécurité Réseau</span>
-                            <span>85%</span>
+                            <span>Administration Réseau</span>
+                            <span>75%</span>
                         </div>
                         <div class="progress">
-                            <div class="progress-bar progress-bar-custom bg-info" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar progress-bar-custom bg-info" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
                         <div class="d-flex justify-content-between mb-1">
-                            <span>Cloud Computing</span>
+                            <span>Configuration VLAN</span>
                             <span>80%</span>
                         </div>
                         <div class="progress">
@@ -355,11 +357,11 @@
                     </div>
                     <div class="mb-3">
                         <div class="d-flex justify-content-between mb-1">
-                            <span>Virtualisation</span>
-                            <span>75%</span>
+                            <span>Programmation Python</span>
+                            <span>60%</span>
                         </div>
                         <div class="progress">
-                            <div class="progress-bar progress-bar-custom bg-warning" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar progress-bar-custom bg-warning" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
                 </div>
@@ -370,62 +372,101 @@
         <div>
             <h4 class="mb-3">Technologies & Outils</h4>
             <div>
-                <span class="skill-tag">CISCO</span>
-                <span class="skill-tag">Linux</span>
-                <span class="skill-tag">Windows Server</span>
-                <span class="skill-tag">AWS</span>
-                <span class="skill-tag">Azure</span>
-                <span class="skill-tag">Docker</span>
-                <span class="skill-tag">VMware</span>
-                <span class="skill-tag">Wireshark</span>
+                <span class="skill-tag">CISCO IOS</span>
+                <span class="skill-tag">Switch 2960X</span>
+                <span class="skill-tag">VLAN</span>
+                <span class="skill-tag">TCP/IP</span>
                 <span class="skill-tag">Python</span>
-                <span class="skill-tag">Bash</span>
-                <span class="skill-tag">Git</span>
+                <span class="skill-tag">Protocoles Réseau</span>
+                <span class="skill-tag">Configuration Switch</span>
+                <span class="skill-tag">CCNA (en cours)</span>
             </div>
         </div>
     </section>
 </div>
 {% endblock %}
+
 {% block javascripts %}
 {{ parent() }}
 <script src="https://kit.fontawesome.com/your-fontawesome-kit.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Gestionnaire pour le sélecteur de format
-    const formatOptions = document.querySelectorAll('.format-option');
-    const formatInput = document.getElementById('selectedFormat');
+// Délégation d'événements pour le sélecteur de format
+document.addEventListener('click', function(e) {
+    if (e.target.closest('.format-option')) {
+        const formatOptions = document.querySelectorAll('.format-option');
+        const formatInput = document.getElementById('selectedFormat');
+        const clickedOption = e.target.closest('.format-option');
+        
+        formatOptions.forEach(opt => opt.classList.remove('selected'));
+        clickedOption.classList.add('selected');
+        formatInput.value = clickedOption.dataset.format;
+    }
+});
 
-    formatOptions.forEach(option => {
-        option.addEventListener('click', function() {
-            // Retire la sélection précédente
-            formatOptions.forEach(opt => opt.classList.remove('selected'));
-            // Ajoute la sélection au format cliqué
-            this.classList.add('selected');
-            // Met à jour l'input caché
-            formatInput.value = this.dataset.format;
+// Gestionnaire d'événements pour le modal
+document.addEventListener('shown.bs.modal', function (e) {
+    if (e.target.id === 'cvModal') {
+        const formatOptions = document.querySelectorAll('.format-option');
+        const formatInput = document.getElementById('selectedFormat');
+
+        // Réinitialisation de la sélection
+        formatOptions.forEach(opt => {
+            if (opt.dataset.format === 'pdf') {
+                opt.classList.add('selected');
+                formatInput.value = 'pdf';
+            } else {
+                opt.classList.remove('selected');
+            }
         });
-    });
+    }
+});
 
-    // Gestionnaire du formulaire
-    document.getElementById('cvDownloadForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const format = document.getElementById('selectedFormat').value;
-        const filePath = `/cv/cv_template.${format}`;
-        
-        // Crée un élément <a> temporaire pour déclencher le téléchargement
-        const link = document.createElement('a');
-        link.href = filePath;
-        link.download = `cv.${format}`;  // Nom du fichier téléchargé
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        
-        // Ferme le modal
-        const modal = bootstrap.Modal.getInstance(document.getElementById('cvModal'));
-        modal.hide();
+// Gestionnaire du formulaire de téléchargement
+document.getElementById('cvDownloadForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const format = document.getElementById('selectedFormat').value;
+    const filePath = `/cv/cv_template.${format}`;
+    
+    // Création d'un lien temporaire pour le téléchargement
+    const link = document.createElement('a');
+    link.href = filePath;
+    link.download = `cv.${format}`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    // Fermeture du modal
+    const modal = bootstrap.Modal.getInstance(document.getElementById('cvModal'));
+    modal.hide();
+    
+    // Réinitialisation du formulaire
+    this.reset();
+});
+
+// Animation des sections au scroll
+const observerOptions = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.1
+};
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+            observer.unobserve(entry.target);
+        }
     });
+}, observerOptions);
+
+// Application des animations aux sections
+document.querySelectorAll('.section-card').forEach(section => {
+    section.style.opacity = '0';
+    section.style.transform = 'translateY(20px)';
+    section.style.transition = 'all 0.6s ease-out';
+    observer.observe(section);
 });
 </script>
-
 {% endblock %}
